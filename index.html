@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steno Museet</title>
+    <link rel="stylesheet" href="css.css/style.css">
+</head>
+<body>
+
+            <!--Baggrundsvideo-->
+            <video autoplay muted loop id="bg-video">
+              <source src="images/Baggrund.mp4" type="video/mp4">
+              Din browser understøtter ikke video.
+            </video>
+
+    <!--Logo-->
+      <img src="images/logo.png" alt="logo" class="logo">
+
+    <!--Krop-->
+    <img src="images/krop1.png" alt="krop" class="krop">
+
+    <!--fremdriftsbar-->
+    <div class="points-container">
+      <div class="points-bar">
+        <div class="points-fill" id="pointsFill"> <!-- Det her vil virke med JavaScript --></div>
+          <span id="pointsText">0/9</span> <!-- det her vil blive opdateret med JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <script src="JavaScript.js/js.js"></script> <!-- Link til JavaScript fil -->
+  </body>
+
+
+</html>

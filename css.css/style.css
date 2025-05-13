@@ -1,0 +1,66 @@
+* {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Forhindrer scroll */
+    box-sizing: border-box;
+    font-family: 'Times New Roman', Times, serif;
+  }
+
+
+  #bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+  }
+
+  .logo {
+        position: fixed; /* Sørger for at logoet er foran videoen */
+        top: 20px;
+        left: 20px;
+        height: 150px; /* Tilpasser størrelse efter behov */
+  }
+
+
+  .krop {
+    position: fixed; 
+    top: 42px;
+    left: 31%; 
+    width: 40%;
+    height: 95%;
+    z-index: 1; /* Ligger over videoen */
+  }
+  
+
+
+  .points-container {
+    width: 500px;
+    position: fixed;/* Gør den fast placeret */
+    top: 50px;/* Afstand fra toppen */
+    right: 50px;/* Afstand fra højre kant */
+    z-index: 2; /* Sørger for at den ligger over videoen */
+  }
+  
+.points-bar /* Container til baren */{
+  background-color: #CDADC6; 
+  border: 1px solid black;
+  border-radius: 12px;
+  overflow: hidden; /* Gør så baren ikke kan ses udenfor containeren */
+  height: 50px; 
+  position: relative; /* Gør så baren kan ses ovenfor videoen */
+}
+
+.points-fill {
+  background-color: #FECAE2;
+  width: 10%; /* Startværdi for baren */
+  height: 100%; /* Fylder hele højden af containeren */
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  color: white;
+  font-size: 24px;
+  border-radius: 10px;
+  transition: width 0.3s ease; /* Animerer fyldning af baren */
+}

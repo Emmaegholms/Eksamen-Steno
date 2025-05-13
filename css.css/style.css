@@ -14,6 +14,7 @@
     width: 100vw;
     height: 100vh;
     object-fit: cover;
+    z-index: -1;
   }
 
   .logo {
@@ -33,6 +34,35 @@
     z-index: 1; /* Ligger over videoen */
   }
   
+  .cirkel {
+    position: absolute;
+    width: 35px;
+    height: 50px;
+    background-color: pink;
+    border-radius: 50%;
+    border: 2px solid #00000052;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+  }
+
+  
+  /*billeder af prævention*/
+  .præventionsformer {
+    width: 100px;
+    background: linear-gradient(to bottom, #e3b6d18e, #c9d1ff7c); /* Gradient baggrund */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 200px;
+    gap: 15px;
+    z-index: 4;
+  }
+
+  section img {
+    width: 70px;
+    height: 67px;
+    object-fit: contain;
+  }
 
 
   .points-container {
@@ -63,4 +93,15 @@
   font-size: 24px;
   border-radius: 10px;
   transition: width 0.3s ease; /* Animerer fyldning af baren */
+}
+
+h1 {
+  position: absolute;
+  left: 25%;
+  bottom: 50px;
+  font-size: 40px;
+  color: darkblue;
+  font-weight: bold;
+  text-shadow: 1px 1px white;
+  z-index: 4;
 }

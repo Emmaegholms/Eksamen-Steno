@@ -70,7 +70,7 @@
     position: fixed;/* Gør den fast placeret */
     top: 50px;/* Afstand fra toppen */
     right: 50px;/* Afstand fra højre kant */
-    z-index: 2; /* Sørger for at den ligger over videoen */
+    z-index: 1; /* Sørger for at den ligger over videoen */
   }
   
 .points-bar /* Container til baren */{

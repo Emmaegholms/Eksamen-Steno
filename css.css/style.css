@@ -84,7 +84,7 @@
 
 .points-fill {
   background-color: #FECAE2;
-  width: 10%; /* Startværdi for baren */
+  width: 40%; /* Startværdi for baren */
   height: 100%; /* Fylder hele højden af containeren */
   display: flex;
   align-items: center;

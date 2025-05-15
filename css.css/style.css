@@ -49,6 +49,7 @@ body{
   }
 
   
+  
   /*billeder af prævention*/
   .præventionsformer {
     width: 100px;
@@ -138,20 +139,17 @@ h1 {
 /* Styling af næste knap*/
 .næste{
   width: 150px;
-  height: 30px;
+  height: 50px; /* lidt større, men ikke for høj */
   border: 2.5px solid rgba(2, 34, 204, 0.33);
-  background-color: rgba(194, 188, 253, 0.33); /* 33% gennemsigtighed */
+  background-color: rgba(194, 188, 253, 0.33);
   border-radius: 15px;
-  padding: 20px;
-  text-align: center;
   font-family: Arial, sans-serif;
-  font-size: 25px;
+  font-size: 20px;
   color: #0222CC;
-
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 25px;
+  margin-top: 10px;
   
 }
 
@@ -178,11 +176,9 @@ position: relative;
 
 /* Får boksene til at stå ved siden af hinanden*/
 .boks-container {
-  position: fixed; !important
+  position: fixed;
   top: 100px;
   left: 100px;
-  z-index: 10;
-  background: white;
   padding: 20px;
 }
 

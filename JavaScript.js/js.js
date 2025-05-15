@@ -1,4 +1,4 @@
-// poit system og fremdriftsbar
+  // poit system og fremdriftsbar
 
 let points = 0;
 const maxPoints = 9;
@@ -142,3 +142,4 @@ dropzones.forEach(z => {
     });
   });
 });
+

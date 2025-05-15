@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Steno Museet</title>
     <link rel="stylesheet" href="css.css/style.css">
+    <link rel="icon" type="image/png" href="images/logo.png">
 </head>
 <body>
   <main>
@@ -22,18 +23,22 @@
 <section>
     <img src="images/krop1.png" alt="krop" class="krop">
 
-<span class="cirkel" style="top: 39%; left: 41.5%;"></span>
-<span class="cirkel" style="top: 20%; left: 50%;"></span>
-<span class="cirkel" style="top: 45%; left: 57.5%;"></span>
-<span class="cirkel" style="top: 49%; left: 43%;"></span>
-<span class="cirkel" style="top: 65%; left: 50%;"></span>
-<span class="cirkel" style="top: 75%; left: 50%;"></span>
+<span class="dropzone" id="zone1" style="top: 39%; left: 41.5%;"></span>
+<span class="dropzone" id="zone2" style="top: 20%; left: 50%;"></span>
+<span class="dropzone" id="zone3" style="top: 45%; left: 57.5%;"></span>
+<span class="dropzone" id="zone4" style="top: 49%; left: 43%;"></span>
+<span class="dropzone" id="zone5" style="top: 65%; left: 50%;"></span>
+<span class="dropzone" id="zone6" style="top: 75%; left: 50%;"></span>
+
+<!-- Feedback efter placering -->
+<div id="feedback" style="margin-top: 20px; font-weight: bold;"></div>
+
     </section>
 
     <!--fremdriftsbar-->
     <div class="points-container">
       <div class="points-bar">
-        <div class="points-fill" id="pointsFill"> <!-- Det her vil virke med JavaScript --></div>
+        <div class="points-fill" id="pointsFill"> <!-- Det her vil virke med JavaScript -->
           <span id="pointsText">0/9</span> <!-- det her vil blive opdateret med JavaScript -->
         </div>
       </div>
@@ -41,21 +46,44 @@
 
     <!--Præventionsformer-->
     <section class="præventionsformer"> 
-      <img src="images/Kondom.png">
-      <img src="images/Homon-spiral.png">
-      <img src="images/P-sprøjte.png">
-      <img src="images/P-piller.png">
-      <img src="images/Pessar.png">
-      <img src="images/Kobber-spiral.png">
-      <img src="images/Mini-piller.png">
-      <img src="images/P-plaster.png">
-      <img src="images/P-stav.png">
+      <img src="images/Kondom.png" class="draggable" id="Kondom" draggable="true">
+      <img src="images/Homon-spiral.png" class="draggable" id="Homon-spiral" draggable="true">
+      <img src="images/P-sprøjte.png" class="draggable" id="P-sprøjte" draggable="true">
+      <img src="images/P-piller.png" class="draggable" id="P-piller" draggable="true">
+      <img src="images/Pessar.png" class="draggable" id="Pessar" draggable="true">
+      <img src="images/Kobber-spiral.png" class="draggable" id="Kobber-spiral" draggable="true">
+      <img src="images/Mini-piller.png" class="draggable" id="Mini-piller" draggable="true">
+      <img src="images/P-plaster.png" class="draggable" id="P-plaster" draggable="true">
+      <img src="images/P-stav.png" class="draggable" id="P-stav" draggable="true">
     </section>
 
     <!--Tekst i midten-->
     <h1>Placér præventionsformerne korrekt på kroppen</h1>
 
+<div>
+<!-- Pop-up boks til rigtigt svar -->
+<section class="boks">
+  <h1>P - pille</h1>
+
+<!-- Billede af prævention -->
+<div class="p-pille">
+<img src="images/P-piller.png" alt="p-pille">
+</div>
+</div>
+
+
+<!-- Næste knap inde i boks -->
+<button class="naeste"> NÆSTE </button>
+</section>
+
+
+
     <script src="JavaScript.js/js.js"></script> <!-- Link til JavaScript fil -->
+    
+
+
+
+
   </body>
 </main>
 

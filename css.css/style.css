@@ -126,28 +126,6 @@ h1 {
   align-items: center;
 }
 
-.p-pille img{
-  max-width: 190px;
-  max-height: 190px;
-}
 
-/* Styling af næste knap*/
-.naeste{
-  width: 150px;
-  height: 30px;
-  border: 2.5px solid rgba(2, 34, 204, 0.33);
-  background-color: rgba(194, 188, 253, 0.33); /* 33% gennemsigtighed */
-  border-radius: 15px;
-  padding: 20px;
-  text-align: center;
-  font-family: Arial, sans-serif;
-  font-size: 25px;
-  color: #0222CC;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 4;
 
-  
-}

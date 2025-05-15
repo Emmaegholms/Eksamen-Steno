@@ -1,33 +1,28 @@
-let points = 0; // Initialize points to 0
-const maxPoints = 9; // Maximum points allowed
+let points = 0;
+const maxPoints = 9;
+const matchedZones = {}; // Holder styr på korrekte match
 
-function addPoint() // Add a point to the points variable 
-{
+function addPoint() {
   if (points < maxPoints) {
-    points++; 
-    updatePoints(); // Update the points display
+    points++;
+    updatePoints();
   }
 }
 
 function updatePoints() {
-  const fill = document.getElementById("pointsFill"); // Get the fill element
-  const text = document.getElementById("pointsText"); // Get the text element
+  const fill = document.getElementById("pointsFill");
+  const text = document.getElementById("pointsText");
 
-  const percentage = (points / maxPoints) * 100; // Calculate the percentage of points
-  fill.style.width = percentage + "%"; // Set the width of the fill element
-  text.textContent = `${points}/${maxPoints}`; // Change color based on points
+  const percentage = (points / maxPoints) * 100;
+  fill.style.width = percentage + "%";
+  text.textContent = `${points}/${maxPoints}`;
 }
 
+// Drag and drop
+const draggables = document.querySelectorAll(".draggable");
+const dropzones = document.querySelectorAll(".dropzone");
+const feedback = document.getElementById("feedback");
 
-
-
-
-// Drag and drop starter her //
-const draggables = document.querySelectorAll(".draggable"); // Henter alle draggable elementer
-const dropzones = document.querySelectorAll(".dropzone"); // Henter alle dropzone elementer
-const feedback = document.getElementById("feedback"); // Henter feedback elementet
-
-// Rigtige match
 const correctMatches = {
   zone1: "P-sprøjte",
   zone2: ["P-piller", "Mini-piller"],
@@ -38,55 +33,23 @@ const correctMatches = {
 };
 
 
-// Når man starter med at trække
-draggables.forEach(item => {
-  item.addEventListener("dragstart", (e) => {
-    e.dataTransfer.setData("text/plain", e.target.id);
-  });
-});
 
-// Drop handler
-const matchedZones = {}; // For at holde styr på hvilke zoner der allerede er korrekt matchet
-dropzones.forEach(zone => {
-  zone.addEventListener("dragover", (e) => e.preventDefault()); // Tillader drop
-
-  zone.addEventListener("drop", (e) => {
-    e.preventDefault();
-    const draggedId = e.dataTransfer.getData("text/plain");
-    const draggedEl = document.getElementById(draggedId);
-  
-    // Fjern fra tidligere dropzone
-    dropzones.forEach(z => {
-      if (z.contains(draggedEl)) {
-        z.removeChild(draggedEl);
-      }
-    });
-  
-    // Fjern tidligere element i denne dropzone (kun én pr. zone)
-    if (zone.firstChild) {
-      zone.removeChild(zone.firstChild);
-    }
-  
-    // Tilføj det nye element
-    zone.appendChild(draggedEl);
-    draggedEl.style.position = "static";
-  
+    // Tjek korrekthed
     const correct = correctMatches[zone.id];
     const isCorrect = (Array.isArray(correct) && correct.includes(draggedId)) || correct === draggedId;
-  
+
     if (isCorrect) {
       feedback.textContent = "Korrekt!";
       feedback.style.color = "green";
-  
+
       if (!matchedZones[zone.id]) {
-        matchedZones[zone.id] = true; // Markér denne zone som matchet korrekt
-        addPoint(); // Tilføj point kun første gang
+        matchedZones[zone.id] = true;
+        addPoint();
       }
-  
     } else {
       feedback.textContent = "Forkert placering";
       feedback.style.color = "red";
-      matchedZones[zone.id] = false; // Fjern evt. tidligere korrekt markering
+      matchedZones[zone.id] = false;
     }
-  });  
+  });
 });

@@ -35,12 +35,9 @@ const correctMatches = {
 draggables.forEach(item => {
   item.addEventListener("dragstart", (e) => {
     e.dataTransfer.setData("text/plain", e.target.id);
-
-    // Deaktiver ikke andre draggables under drag
   });
 
   item.addEventListener("dragend", () => {
-    // Genaktiver alle draggables efter drag
   });
 });
 
@@ -52,15 +49,14 @@ dropzones.forEach(zone => {
 
     const draggedId = e.dataTransfer.getData("text/plain");
     const draggedEl = document.getElementById(draggedId);
-    const originalParent = draggedEl.parentNode; // Gem den oprindelige forælder
+    const originalParent = draggedEl.parentNode;
 
     // Fjern fra tidligere zone
     if (originalParent && originalParent.classList.contains('dropzone')) {
-      // Tjek om det element der fjernes var korrekt placeret
       const wasCorrect = correctMatches[originalParent.id];
       const wasCorrectMatch = Array.isArray(wasCorrect) ? wasCorrect.includes(draggedId) : wasCorrect === draggedId;
       if (wasCorrectMatch && matchedZones[originalParent.id]) {
-        delete matchedZones[originalParent.id]; // Fjern markeringen af zonen som matchet
+        delete matchedZones[originalParent.id];
         if (pendingCorrectId === draggedId) {
           pendingCorrectId = null;
         }
@@ -69,7 +65,6 @@ dropzones.forEach(zone => {
 
     // Fjern eksisterende i den nye zone
     if (zone.firstChild) {
-      // Flyt eksisterende element tilbage til dets oprindelige position (hvis det kom fra en dropzone)
       const existingElement = zone.firstChild;
       if (existingElement.dataset.originalParentId) {
         const originalParentOfExisting = document.getElementById(existingElement.dataset.originalParentId);
@@ -77,7 +72,6 @@ dropzones.forEach(zone => {
           originalParentOfExisting.appendChild(existingElement);
           existingElement.style.position = "static";
           delete existingElement.dataset.originalParentId;
-          // Hvis det eksisterende element var korrekt, fjern markeringen af den zone
           const existingId = existingElement.id;
           const wasExistingCorrect = correctMatches[zone.id];
           const wasExistingCorrectMatch = Array.isArray(wasExistingCorrect) ? wasExistingCorrect.includes(existingId) : wasExistingCorrect === existingId;
@@ -86,7 +80,6 @@ dropzones.forEach(zone => {
           }
         }
       } else {
-        // Hvis det eksisterende element startede uden for en dropzone, fjern det helt (hvis det er den ønskede opførsel)
         zone.removeChild(existingElement);
       }
     }
@@ -94,7 +87,7 @@ dropzones.forEach(zone => {
     // Tilføj det nye element
     zone.appendChild(draggedEl);
     draggedEl.style.position = "static";
-    draggedEl.dataset.originalParentId = zone.id; // Gem nuværende zone ID
+    draggedEl.dataset.originalParentId = zone.id;
 
     // Tjek om placering er korrekt
     const correct = correctMatches[zone.id];
@@ -107,23 +100,23 @@ dropzones.forEach(zone => {
       pendingCorrectId = draggedId;
       showInfoBox(draggedId);
       feedback.textContent = "";
-      feedback.style.color = ""; // Reset farve
+      feedback.style.color = "";
     } else if (!isCorrect) {
       feedback.textContent = "Forkert placering";
       feedback.style.color = "red";
       if (matchedZones[zone.id]) {
-        delete matchedZones[zone.id]; // Fjern markeringen, hvis et forkert element placeres i en tidligere korrekt zone
+        delete matchedZones[zone.id];
       }
       if (pendingCorrectId === draggedId) {
         pendingCorrectId = null;
       }
     }
 
-    // Genaktiver alle draggables
-    draggables.forEach(el => {
-      el.setAttribute("draggable", "true");
-      el.style.opacity = "1";
-    });
+    // Genaktiver alle draggables (ikke nødvendigt her, da vi fjerner elementet)
+    // draggables.forEach(el => {
+    //   el.setAttribute("draggable", "true");
+    //   el.style.opacity = "1";
+    // });
   });
 });
 
@@ -256,7 +249,14 @@ function closeInfoBox() {
   document.getElementById("boks-info").style.display = "none";
 
   if (pendingCorrectId) {
-    // Elementet bliver nu ikke fjernet her.
+    const elementToRemove = document.getElementById(pendingCorrectId);
+    if (elementToRemove && elementToRemove.parentElement) {
+      // Gem elementet væk i stedet for at fjerne det helt fra DOM'en
+      elementToRemove.style.display = "none";
+      // Alternativt kan du fjerne det helt:
+      // elementToRemove.parentElement.removeChild(elementToRemove);
+    }
+
     addPoint();
     pendingCorrectId = null;
   }

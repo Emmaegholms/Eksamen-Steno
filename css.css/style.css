@@ -57,7 +57,7 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 200px;
+    padding-top: 180px;
     gap: 15px;
     z-index: 4;
     cursor: pointer;
@@ -66,7 +66,7 @@ body{
 
   section img {
     width: 70px;
-    height: 67px;
+    height: 60px;
     object-fit: contain;
   }
 

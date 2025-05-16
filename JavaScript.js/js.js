@@ -25,7 +25,7 @@ function updatePoints() {
 
 const draggables = document.querySelectorAll(".draggable");
 const dropzones = document.querySelectorAll(".dropzone");
-const feedback = document.getElementById("feedback");
+
 
 const correctMatches = {
   zone1: "P-sprøjte",
@@ -217,19 +217,22 @@ dropzones.forEach(zone => {
       ? correct.includes(draggedId)
       : correct === draggedId;
 
-    if (isCorrect && !matchedZones[zone.id]) {
-      matchedZones[zone.id] = true;
-      pendingCorrectId = draggedId;
-      showInfoBox(draggedId);
-      feedback.textContent = "rrr";
-      feedback.style.color = "rr";
-      draggables.forEach(el => {
-        el.setAttribute("draggable", "false");
-        el.style.opacity = "0.5";
-      });
+      if (isCorrect && !matchedZones[zone.id]) {
+        matchedZones[zone.id] = true;
+        pendingCorrectId = draggedId;
+        showInfoBox(draggedId);
+      
+        // Skjul overskriften første gang noget placeres korrekt
+        const overskriftEl = document.getElementById("overskrift");
+        if (overskriftEl) overskriftEl.style.display = "none";
+      
+        draggables.forEach(el => {
+          el.setAttribute("draggable", "false");
+          el.style.opacity = "0.5";
+        });
+      
+      
     } else if (!isCorrect) {
-      feedback.textContent = "";
-      feedback.style.color = "";
       if (matchedZones[zone.id]) {
         delete matchedZones[zone.id];
       }

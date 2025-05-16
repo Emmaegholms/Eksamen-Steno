@@ -36,19 +36,11 @@ draggables.forEach(item => {
   item.addEventListener("dragstart", (e) => {
     e.dataTransfer.setData("text/plain", e.target.id);
 
-    draggables.forEach(el => {
-      if (el !== item) {
-        el.setAttribute("draggable", "false");
-        el.style.opacity = "0.4";
-      }
-    });
+    // Deaktiver ikke andre draggables under drag
   });
 
   item.addEventListener("dragend", () => {
-    draggables.forEach(el => {
-      el.setAttribute("draggable", "true");
-      el.style.opacity = "1";
-    });
+    // Genaktiver alle draggables efter drag
   });
 });
 
@@ -60,15 +52,49 @@ dropzones.forEach(zone => {
 
     const draggedId = e.dataTransfer.getData("text/plain");
     const draggedEl = document.getElementById(draggedId);
+    const originalParent = draggedEl.parentNode; // Gem den oprindelige forælder
 
-    // Fjern eksisterende i zonen (IKKE i alle zoner)
+    // Fjern fra tidligere zone
+    if (originalParent && originalParent.classList.contains('dropzone')) {
+      // Tjek om det element der fjernes var korrekt placeret
+      const wasCorrect = correctMatches[originalParent.id];
+      const wasCorrectMatch = Array.isArray(wasCorrect) ? wasCorrect.includes(draggedId) : wasCorrect === draggedId;
+      if (wasCorrectMatch && matchedZones[originalParent.id]) {
+        delete matchedZones[originalParent.id]; // Fjern markeringen af zonen som matchet
+        if (pendingCorrectId === draggedId) {
+          pendingCorrectId = null;
+        }
+      }
+    }
+
+    // Fjern eksisterende i den nye zone
     if (zone.firstChild) {
-      zone.removeChild(zone.firstChild);
+      // Flyt eksisterende element tilbage til dets oprindelige position (hvis det kom fra en dropzone)
+      const existingElement = zone.firstChild;
+      if (existingElement.dataset.originalParentId) {
+        const originalParentOfExisting = document.getElementById(existingElement.dataset.originalParentId);
+        if (originalParentOfExisting) {
+          originalParentOfExisting.appendChild(existingElement);
+          existingElement.style.position = "static";
+          delete existingElement.dataset.originalParentId;
+          // Hvis det eksisterende element var korrekt, fjern markeringen af den zone
+          const existingId = existingElement.id;
+          const wasExistingCorrect = correctMatches[zone.id];
+          const wasExistingCorrectMatch = Array.isArray(wasExistingCorrect) ? wasExistingCorrect.includes(existingId) : wasExistingCorrect === existingId;
+          if (wasExistingCorrectMatch && matchedZones[zone.id]) {
+            delete matchedZones[zone.id];
+          }
+        }
+      } else {
+        // Hvis det eksisterende element startede uden for en dropzone, fjern det helt (hvis det er den ønskede opførsel)
+        zone.removeChild(existingElement);
+      }
     }
 
     // Tilføj det nye element
     zone.appendChild(draggedEl);
     draggedEl.style.position = "static";
+    draggedEl.dataset.originalParentId = zone.id; // Gem nuværende zone ID
 
     // Tjek om placering er korrekt
     const correct = correctMatches[zone.id];
@@ -81,12 +107,19 @@ dropzones.forEach(zone => {
       pendingCorrectId = draggedId;
       showInfoBox(draggedId);
       feedback.textContent = "";
+      feedback.style.color = ""; // Reset farve
     } else if (!isCorrect) {
       feedback.textContent = "Forkert placering";
       feedback.style.color = "red";
+      if (matchedZones[zone.id]) {
+        delete matchedZones[zone.id]; // Fjern markeringen, hvis et forkert element placeres i en tidligere korrekt zone
+      }
+      if (pendingCorrectId === draggedId) {
+        pendingCorrectId = null;
+      }
     }
 
-    // Genaktiver alt igen
+    // Genaktiver alle draggables
     draggables.forEach(el => {
       el.setAttribute("draggable", "true");
       el.style.opacity = "1";
@@ -204,16 +237,16 @@ function showInfoBox(id) {
 
 
 function visFaktaBoksInfo(data) {
-  const boks = document.getElementById('boks-info').style.display = 'flex';
+  const boks = document.getElementById('boks-info');
+  boks.style.display = 'flex';
+  boks.style.visibility = 'visible';
+  boks.style.opacity = '1';
+  boks.style.zIndex = '1000';
   document.getElementById('info-img').src = data.billede;
   document.getElementById('info-img').alt = data.alt;
   document.getElementById('info-overskrift').textContent = data.overskrift;
   document.getElementById('info-citat').textContent = data.citat;
   document.getElementById('info-tekst').textContent = data.fakta;
-  boks.style.visibility = 'visible';
-  boks.style.opacity = '1';
-  boks.style.zIndex = '1000';
-  
 }
 
 
@@ -223,11 +256,7 @@ function closeInfoBox() {
   document.getElementById("boks-info").style.display = "none";
 
   if (pendingCorrectId) {
-    const elementToRemove = document.getElementById(pendingCorrectId);
-    if (elementToRemove && elementToRemove.parentElement) {
-      elementToRemove.parentElement.removeChild(elementToRemove);
-    }
-
+    // Elementet bliver nu ikke fjernet her.
     addPoint();
     pendingCorrectId = null;
   }
@@ -240,7 +269,3 @@ console.log("Er korrekt?:", isCorrect);
 
 
  //dont touch ts emma
-
-
-// forkert box
-

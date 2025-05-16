@@ -95,22 +95,31 @@ dropzones.forEach(zone => {
       ? correct.includes(draggedId)
       : correct === draggedId;
 
-    if (isCorrect && !matchedZones[zone.id]) {
-      matchedZones[zone.id] = true;
-      pendingCorrectId = draggedId;
-      showInfoBox(draggedId);
-      feedback.textContent = "";
-      feedback.style.color = "";
-    } else if (!isCorrect) {
-      feedback.textContent = "Forkert placering";
-      feedback.style.color = "red";
-      if (matchedZones[zone.id]) {
-        delete matchedZones[zone.id];
+
+      if (isCorrect && !matchedZones[zone.id]) {
+        matchedZones[zone.id] = true;
+        pendingCorrectId = draggedId;
+        showInfoBox(draggedId);
+      } else if (!isCorrect) {
+        showWrongBox();
+        if (matchedZones[zone.id]) {
+          delete matchedZones[zone.id];
+        }
+        if (pendingCorrectId === draggedId) {
+          pendingCorrectId = null;
+        }
       }
-      if (pendingCorrectId === draggedId) {
-        pendingCorrectId = null;
-      }
-    }
+      
+
+function showWrongBox() {
+  document.getElementById("wrongBox").style.display = "flex";
+}
+
+function closeWrongBox() {
+  document.getElementById("wrongBox").style.display = "none";
+}
+
+
 
     // Genaktiver alle draggables (ikke nødvendigt her, da vi fjerner elementet)
     // draggables.forEach(el => {
@@ -140,9 +149,9 @@ const mapping = {
   "P-sprøjte": "p_sproejte",
   "P-plaster": "p_plaster",
   "P-stav": "p_stav",
-  "Homon-spiral": "spiral",
   "Kobber-spiral": "kobber_spiral",
   "Pessar": "pessar",
+  "Homon-spiral": "homon_spiral",
   "Kondom": "kondom"
 };
 
@@ -184,7 +193,7 @@ const faktaData = {
     citat: '"P-staven passer mig, fordi..."',
     fakta: 'P-staven placeres under huden...'
   },
-  spiral: {
+  homon_spiral: {
     billede: 'images/Homon-spiral.png',
     alt: 'ikon spiral',
     overskrift: 'FAKTA: Spiral',
@@ -262,8 +271,6 @@ function closeInfoBox() {
   }
 }
 
-console.log("Droppet:", draggedId, "i zone:", zone.id);
-console.log("Er korrekt?:", isCorrect);
 
 
 

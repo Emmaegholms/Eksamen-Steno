@@ -209,3 +209,91 @@ h1 {
   cursor: pointer;
 }
 
+
+
+
+
+
+.wrongbox {
+  position: fixed;
+  top: 35%;
+  left: 72%;
+  width: 250px;
+  height: 180px;
+  border: 2.5px solid rgba(255, 0, 0, 0.33);
+  background-color: rgba(255, 200, 200, 0.6);
+  border-radius: 12px;
+  z-index: 999;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  color: darkred;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrongbox-title {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.wrongbox-text {
+  margin: 10px 0;
+}
+
+.wrongbox-button {
+  padding: 10px 30px;
+  border: none;
+  background-color: #f08080;
+  border-radius: 20px;
+  font-size: 18px;
+  color: white;
+  cursor: pointer;
+}
+
+.wrongbox-button:hover {
+  background-color: #d25c5c;
+}
+.wrongbox {
+  position: fixed;
+  top: 35%;
+  left: 72%;
+  width: 250px;
+  height: 180px;
+  border: 2.5px solid rgba(255, 0, 0, 0.33);
+  background-color: rgba(255, 200, 200, 0.6);
+  border-radius: 12px;
+  z-index: 999;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  color: darkred;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrongbox-title {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.wrongbox-text {
+  margin: 10px 0;
+}
+
+.wrongbox-button {
+  padding: 10px 30px;
+  border: none;
+  background-color: #f08080;
+  border-radius: 20px;
+  font-size: 18px;
+  color: white;
+  cursor: pointer;
+}
+
+.wrongbox-button:hover {
+  background-color: #d25c5c;
+}
+

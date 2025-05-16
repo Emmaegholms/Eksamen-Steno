@@ -112,14 +112,17 @@ h1 {
   z-index: 4;
 }
 
-/* Styling af pop up boks*/
-.boks {
-  width: 205px;
-  height: 200px;
+/*css, til korrekt boks*/
+.infobox {
+  position: fixed;
+  top: 35%;
+  left: 72%;
+  width: 250px;
+  height: 250px;
   border: 2.5px solid rgba(2, 34, 204, 0.33);
   background-color: rgba(194, 188, 253, 0.33); /* 33% gennemsigtighed */
-  border-radius: 15px;
-  padding: 20px;
+  border-radius: 12px;
+  z-index: 999;
   text-align: center;
   font-family: Arial, sans-serif;
   color: #0222CC;
@@ -128,82 +131,33 @@ h1 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
 }
 
+.infobox-title {
+  color: darkblue;
 
-.prævention img{
-  max-width: 190px;
-  max-height: 190px;
 }
 
-/* Styling af næste knap*/
-.næste{
-  width: 150px;
+.infobox-image {
+  width: 190px;
+  margin: 10px 0;
+  margin-top: -10px;
+}
+
+.infobox-button {
+  padding: 10px 40px;
   height: 50px; /* lidt større, men ikke for høj */
   border: 2.5px solid rgba(2, 34, 204, 0.33);
   background-color: rgba(194, 188, 253, 0.33);
-  border-radius: 15px;
+  border-radius: 20px;
   font-family: Arial, sans-serif;
   font-size: 20px;
   color: #0222CC;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 10px;
-  
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-
-
-/* Styling af pop up boks*/
-.boks2 {
-width: 205px;
-height: 500px;
-border: 2.5px solid #E1D2F5; 
-background-color: #bbcbf5(194, 188, 253, 0.33); /* 33% gennemsigtighed */
-border-radius: 15px;
-padding: 20px;
-text-align: center;
-font-family: Arial, sans-serif;
-color: #0222CC;
-
-display: flex;
-flex-direction: column;
-align-items: center;
-position: relative;
+.infobox-button:hover {
+  background-color: #7e7ee0;
 }
-
-
-/* Får boksene til at stå ved siden af hinanden*/
-.boks-container {
-  position: fixed;
-  top: 100px;
-  left: 100px;
-  padding: 20px;
-}
-
-/* Styling af ikon ved siden af H1*/
-.overskrift {
-display: flex;
-align-items: center;
-justify-content: center;
-gap: 0px;
-}
-
-.overskrift-img {
-max-width: 70px; /* Tilpas efter behov */
-height: auto;
-margin-left:-45px;
-}
-
-/* Styling på lydikon*/
-.lydikon {
-position: absolute;
-bottom: 10px;
-right: 10px;
-width: 24px;
-height: 24px;
-cursor: pointer;
-}
-
-

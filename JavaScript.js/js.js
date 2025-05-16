@@ -1,6 +1,7 @@
   // poit system og fremdriftsbar
 
 let points = 0;
+let pendingCorrectId = null;
 const maxPoints = 9;
 const matchedZones = {}; // Holder styr på korrekte match
 
@@ -126,9 +127,13 @@ dropzones.forEach(z => {
       feedback.style.color = "green";
 
       if (!matchedZones[zone.id]) {
+        pendingCorrectId = draggedId; // Gem korrekt ID til senere
         matchedZones[zone.id] = true;
-        addPoint();
+        showInfoBox(draggedId);       // Vis infoboks først
       }
+        
+
+      
     } else {
       feedback.textContent = "Forkert placering";
       feedback.style.color = "red";
@@ -143,3 +148,63 @@ dropzones.forEach(z => {
   });
 });
 
+
+const preventionInfo = {
+  "P-piller": {
+    name: "P-piller",
+    img: "images/P-piller.png"
+  },
+  "Mini-piller": {
+    name: "Mini-piller",
+    img: "images/Mini-piller.png"
+  },
+  "P-sprøjte": {
+    name: "P-sprøjte",
+    img: "images/P-sprøjte.png"
+  },
+  "P-plaster": {
+    name: "P-plaster",
+    img: "images/P-plaster.png"
+  },
+  "P-stav": {
+    name: "P-stav",
+    img: "images/P-stav.png"
+  },
+  "Homon-spiral": {
+    name: "Hormonspiral",
+    img: "images/Homon-spiral.png"
+  },
+  "Kobber-spiral": {
+    name: "Kobberspiral",
+    img: "images/Kobber-spiral.png"
+  },
+  "Pessar": {
+    name: "Pessar",
+    img: "images/Pessar.png"
+  },
+  "Kondom": {
+    name: "Kondom",
+    img: "images/Kondom.png"
+  }
+};
+
+
+function showInfoBox(id) {
+  document.getElementById("infoBox").style.display = "flex";
+
+  const info = preventionInfo[id];
+  if (!info) return;
+
+  document.getElementById("infoTitle").textContent = info.name; // ✅ vis navnet
+  document.getElementById("infoImage").src = info.img;
+  document.getElementById("infoBox").style.display = "flex"; // vis boks
+}
+
+function closeInfoBox() {
+  document.getElementById("infoBox").style.display = "none";
+
+  if (pendingCorrectId) {
+    addPoint();               // Giv point når brugeren klikker "Næste"
+    pendingCorrectId = null;  // Nulstil
+  }
+}

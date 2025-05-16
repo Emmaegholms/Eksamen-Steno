@@ -1,7 +1,12 @@
+
 let points = 0;
 let pendingCorrectId = null;
 const maxPoints = 9;
 const matchedZones = {};
+
+document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("infoBox").style.display = "none";
+});
 
 function addPoint() {
   if (points < maxPoints) {
@@ -13,7 +18,6 @@ function addPoint() {
 function updatePoints() {
   const fill = document.getElementById("pointsFill");
   const text = document.getElementById("pointsText");
-
   const percentage = (points / maxPoints) * 100;
   fill.style.width = percentage + "%";
   text.textContent = `${points}/${maxPoints}`;
@@ -31,103 +35,6 @@ const correctMatches = {
   zone5: ["Homon-spiral", "Kobber-spiral"],
   zone6: ["Pessar", "Kondom"]
 };
-
-draggables.forEach(item => {
-  item.addEventListener("dragstart", (e) => {
-    e.dataTransfer.setData("text/plain", e.target.id);
-
-    // Deaktiver ikke andre draggables under drag
-  });
-
-  item.addEventListener("dragend", () => {
-    // Genaktiver alle draggables efter drag
-  });
-});
-
-dropzones.forEach(zone => {
-  zone.addEventListener("dragover", (e) => e.preventDefault());
-
-  zone.addEventListener("drop", (e) => {
-    e.preventDefault();
-
-    const draggedId = e.dataTransfer.getData("text/plain");
-    const draggedEl = document.getElementById(draggedId);
-    const originalParent = draggedEl.parentNode; // Gem den oprindelige forælder
-
-    // Fjern fra tidligere zone
-    if (originalParent && originalParent.classList.contains('dropzone')) {
-      // Tjek om det element der fjernes var korrekt placeret
-      const wasCorrect = correctMatches[originalParent.id];
-      const wasCorrectMatch = Array.isArray(wasCorrect) ? wasCorrect.includes(draggedId) : wasCorrect === draggedId;
-      if (wasCorrectMatch && matchedZones[originalParent.id]) {
-        delete matchedZones[originalParent.id]; // Fjern markeringen af zonen som matchet
-        if (pendingCorrectId === draggedId) {
-          pendingCorrectId = null;
-        }
-      }
-    }
-
-    // Fjern eksisterende i den nye zone
-    if (zone.firstChild) {
-      // Flyt eksisterende element tilbage til dets oprindelige position (hvis det kom fra en dropzone)
-      const existingElement = zone.firstChild;
-      if (existingElement.dataset.originalParentId) {
-        const originalParentOfExisting = document.getElementById(existingElement.dataset.originalParentId);
-        if (originalParentOfExisting) {
-          originalParentOfExisting.appendChild(existingElement);
-          existingElement.style.position = "static";
-          delete existingElement.dataset.originalParentId;
-          // Hvis det eksisterende element var korrekt, fjern markeringen af den zone
-          const existingId = existingElement.id;
-          const wasExistingCorrect = correctMatches[zone.id];
-          const wasExistingCorrectMatch = Array.isArray(wasExistingCorrect) ? wasExistingCorrect.includes(existingId) : wasExistingCorrect === existingId;
-          if (wasExistingCorrectMatch && matchedZones[zone.id]) {
-            delete matchedZones[zone.id];
-          }
-        }
-      } else {
-        // Hvis det eksisterende element startede uden for en dropzone, fjern det helt (hvis det er den ønskede opførsel)
-        zone.removeChild(existingElement);
-      }
-    }
-
-    // Tilføj det nye element
-    zone.appendChild(draggedEl);
-    draggedEl.style.position = "static";
-    draggedEl.dataset.originalParentId = zone.id; // Gem nuværende zone ID
-
-    // Tjek om placering er korrekt
-    const correct = correctMatches[zone.id];
-    const isCorrect = Array.isArray(correct)
-      ? correct.includes(draggedId)
-      : correct === draggedId;
-
-    if (isCorrect && !matchedZones[zone.id]) {
-      matchedZones[zone.id] = true;
-      pendingCorrectId = draggedId;
-      showInfoBox(draggedId);
-      feedback.textContent = "";
-      feedback.style.color = ""; // Reset farve
-    } else if (!isCorrect) {
-      feedback.textContent = "Forkert placering";
-      feedback.style.color = "red";
-      if (matchedZones[zone.id]) {
-        delete matchedZones[zone.id]; // Fjern markeringen, hvis et forkert element placeres i en tidligere korrekt zone
-      }
-      if (pendingCorrectId === draggedId) {
-        pendingCorrectId = null;
-      }
-    }
-
-    // Genaktiver alle draggables
-    draggables.forEach(el => {
-      el.setAttribute("draggable", "true");
-      el.style.opacity = "1";
-    });
-  });
-});
-
-
 
 const preventionInfo = {
   "P-piller": { name: "P-piller", img: "images/P-piller.png" },
@@ -153,71 +60,69 @@ const mapping = {
   "Kondom": "kondom"
 };
 
-
-
 const faktaData = {
   p_piller: {
     billede: 'images/P-piller.png',
     alt: 'ikon p-pille',
-    overskrift: 'FAKTA: P-piller',
-    citat: '"Jeg bruger p-piller, fordi..."',
-    fakta: 'P-piller tages dagligt og indeholder hormoner...'
+    overskrift: 'RIGTIGT',
+    citat: '"Det er nemt at tage en pille hver dag, og jeg føler mig i kontrol."',
+    fakta: 'P-piller er en af de mest udbredte former for prævention og indeholder en kombination af østrogen og gestagen. De tages dagligt og virker ved at hæmme ægløsningen. P-pillen blev introduceret i USA i 1960 og kom til Danmark i 1966. Siden da har den spillet en stor rolle i kvinders mulighed for at styre deres fertilitet.'
   },
   mini_piller: {
     billede: 'images/Mini-piller.png',
     alt: 'ikon mini-pille',
-    overskrift: 'FAKTA: Mini-piller',
-    citat: '"Jeg bruger mini-piller, fordi..."',
-    fakta: 'Mini-piller tages dagligt...'
+    overskrift: 'RIGTIGT',
+    citat: '"Jeg bruger mini-piller, fordi de ikke indeholder så meget hormon, og det passer godt til min krop."',
+    fakta: 'Mini-piller indeholder kun gestagen og ikke østrogen som almindelige p-piller. De tages dagligt og gør livmoderhalsslimet ugennemtrængeligt for sædceller samt hæmmer ofte ægløsningen. De egner sig særligt til kvinder, der ikke tåler østrogen, f.eks. under amning. Mini-piller blev introduceret i Danmark i 1970’erne.'
   },
   p_sproejte: {
     billede: 'images/P-sprøjte.png',
     alt: 'ikon p-sprøjte',
-    overskrift: 'FAKTA: P-sprøjte',
-    citat: '"Jeg foretrækker p-sprøjten, fordi..."',
-    fakta: 'P-sprøjten gives som en indsprøjtning...'
+    overskrift: 'RIGTIGT!',
+    citat: '"Jeg får bare en sprøjte hver tredje måned, og så behøver jeg ikke tænke mere over det."',
+    fakta: 'P-sprøjten er en hormonel præventionsmetode, der indeholder gestagen. Den gives som en indsprøjtning hver 8.-12. uge, ofte i baldemusklen. Den virker ved at forhindre ægløsning og gøre slimhinden i livmoderen mindre modtagelig. P-sprøjten blev populær i 1990’erne i Danmark, men bruges i dag mindre hyppigt på grund af bivirkninger som vægtøgning og uregelmæssige blødninger.'
   },
   p_plaster: {
     billede: 'images/P-plaster.png',
     alt: 'ikon p-plaster',
-    overskrift: 'FAKTA: P-plaster',
-    citat: '"Jeg bruger plaster, fordi..."',
-    fakta: 'P-plaster sættes på huden...'
+    overskrift: 'RIGTIGT',
+    citat: '"P-plasteret passer godt til min hverdag – jeg sætter det bare på én gang om ugen."',
+    fakta: 'P-plaster er et lille hudplaster, der frigiver østrogen og gestagen gennem huden. Det skiftes en gang om ugen i tre uger, med en pause i den fjerde uge. Det virker på samme måde som p-piller, men uden behov for daglig indtagelse. P-plasteret blev godkendt i EU i begyndelsen af 2000’erne og kom kort efter til Danmark.'
   },
   p_stav: {
     billede: 'images/P-stav.png',
     alt: 'ikon p-stav',
-    overskrift: 'FAKTA: P-stav',
-    citat: '"P-staven passer mig, fordi..."',
-    fakta: 'P-staven placeres under huden...'
+    overskrift: 'RIGTIGT',
+    citat: '“P-staven passer til mig, fordi jeg ikke skal huske noget hver dag.”',
+    fakta: 'P-staven er en lille plaststav, som indeholder gestagen og placeres under huden på overarmen. Den frigiver hormoner langsomt og virker i op til 3 år. P-staven forhindrer ægløsning og ændrer livmoderhalsslimet. Den blev introduceret i Danmark i slutningen af 1990’erne og er kendt for sin høje sikkerhed og lave vedligeholdelse.'
   },
   spiral: {
     billede: 'images/Homon-spiral.png',
     alt: 'ikon spiral',
-    overskrift: 'FAKTA: Spiral',
-    citat: '"Jeg har valgt spiral, fordi..."',
-    fakta: 'Spiralen placeres i livmoderen...'
+    overskrift: 'RIGTIGT',
+    citat: '"Jeg har hormonspiral, fordi den virker i flere år og giver færre menstruationer."',
+    fakta: 'Hormonspiralen er en T-formet plastikindsats, der placeres i livmoderen og langsomt frigiver gestagen. Den virker i 3–8 år afhængigt af typen og gør slimhinden uegnet til graviditet samt ændrer livmoderhalsslimet. Hormonspiralen kom til Danmark i 1990’erne og er blevet mere populær i de seneste år på grund af dens effektivitet og langvarige virkning.'
   },
   kobber_spiral: {
     billede: 'images/Kobber-spiral.png',
     alt: 'ikon kobberspiral',
-    overskrift: 'FAKTA: Kobberspiral',
-    citat: '"Jeg bruger kobberspiralen, fordi..."',
-    fakta: 'Kobberspiralen er hormonfri...'
+    overskrift: 'RIGTIGT',
+    citat: '"Kobberspiralen er et godt valg for mig, fordi den ikke indeholder hormoner."',
+    fakta: 'Kobberspiralen er en lille T-formet plastgenstand omviklet med kobbertråd, som placeres i livmoderen. Kobberet virker sæddræbende og forhindrer befrugtning. Den indeholder ingen hormoner og virker i op til 5–10 år. Kobberspiralen blev introduceret i Danmark i 1970’erne og bruges stadig som en effektiv, hormonfri præventionsform.'
   },
   pessar: {
     billede: 'images/Pessar.png',
     alt: 'ikon pessar',
-    overskrift: 'FAKTA: Pessar',
-    citat: '"Jeg bruger pessar, fordi..."',
-    fakta: 'Pessar er en silikonekop...'
+    overskrift: 'RIGTIGT',
+    citat: '"Pessar er smart, fordi jeg selv kan sætte den op – og så beskytter den også mod sygdomme."',
+    fakta: 'Pessaret er en silikone- eller gummiskål, der sættes op i skeden før samleje og dækker livmoderhalsen. Det bruges sammen med sæddræbende creme. Pessaret er en ikke-hormonel metode og kan genbruges. Det var især udbredt i første halvdel af 1900-tallet i Danmark, men bruges i dag mere sjældent.'
   },
   kondom: {
     billede: 'images/Kondom.png',
     alt: 'ikon kondom',
-    overskrift: 'FAKTA: Kondom',
-    citat: '"Jeg bruger kondom, fordi..."',
-    fakta: 'Kondomet beskytter mod graviditet og sygdomme...'
+    overskrift: 'RIGTIGT',
+    citat: '“Kondom er nemt at bruge, og så beskytter den mod sygdomme.”',
+    fakta: 'Kondomet er den eneste præventionsform, der beskytter både mod graviditet og seksuelt overførte sygdomme. Det er en tynd gummihinde, der rulles ud over penis før samleje. Kondomer i latex blev udviklet i begyndelsen af 1900-tallet, men blev for alvor udbredt i Danmark i 1960’erne og fik fornyet betydning under HIV-epidemien i 1980’erne.'
   }
 };
 
@@ -235,13 +140,13 @@ function showInfoBox(id) {
   }
 }
 
-
 function visFaktaBoksInfo(data) {
   const boks = document.getElementById('boks-info');
   boks.style.display = 'flex';
   boks.style.visibility = 'visible';
   boks.style.opacity = '1';
   boks.style.zIndex = '1000';
+
   document.getElementById('info-img').src = data.billede;
   document.getElementById('info-img').alt = data.alt;
   document.getElementById('info-overskrift').textContent = data.overskrift;
@@ -250,22 +155,132 @@ function visFaktaBoksInfo(data) {
 }
 
 
+draggables.forEach(item => {
+  item.addEventListener("dragstart", (e) => {
+    e.dataTransfer.setData("text/plain", e.target.id);
+    draggables.forEach(el => {
+      if (el !== e.target) {
+        el.setAttribute("draggable", "false");
+        el.style.opacity = "0.5";
+      }
+    });
+  });
+});
+
+dropzones.forEach(zone => {
+  zone.addEventListener("dragover", (e) => e.preventDefault());
+
+  zone.addEventListener("drop", (e) => {
+    e.preventDefault();
+
+    const draggedId = e.dataTransfer.getData("text/plain");
+    const draggedEl = document.getElementById(draggedId);
+    const originalParent = draggedEl.parentNode;
+
+    if (originalParent && originalParent.classList.contains('dropzone')) {
+      const wasCorrect = correctMatches[originalParent.id];
+      const wasCorrectMatch = Array.isArray(wasCorrect) ? wasCorrect.includes(draggedId) : wasCorrect === draggedId;
+      if (wasCorrectMatch && matchedZones[originalParent.id]) {
+        delete matchedZones[originalParent.id];
+        if (pendingCorrectId === draggedId) {
+          pendingCorrectId = null;
+        }
+      }
+    }
+
+    if (zone.firstChild) {
+      const existingElement = zone.firstChild;
+      if (existingElement.dataset.originalParentId) {
+        const originalParentOfExisting = document.getElementById(existingElement.dataset.originalParentId);
+        if (originalParentOfExisting) {
+          originalParentOfExisting.appendChild(existingElement);
+          existingElement.style.position = "static";
+          delete existingElement.dataset.originalParentId;
+          const existingId = existingElement.id;
+          const wasExistingCorrect = correctMatches[zone.id];
+          const wasExistingCorrectMatch = Array.isArray(wasExistingCorrect) ? wasExistingCorrect.includes(existingId) : wasExistingCorrect === existingId;
+          if (wasExistingCorrectMatch && matchedZones[zone.id]) {
+            delete matchedZones[zone.id];
+          }
+        }
+      } else {
+        zone.removeChild(existingElement);
+      }
+    }
+
+    zone.appendChild(draggedEl);
+    draggedEl.style.position = "static";
+    draggedEl.dataset.originalParentId = zone.id;
+
+    const correct = correctMatches[zone.id];
+    const isCorrect = Array.isArray(correct)
+      ? correct.includes(draggedId)
+      : correct === draggedId;
+
+    if (isCorrect && !matchedZones[zone.id]) {
+      matchedZones[zone.id] = true;
+      pendingCorrectId = draggedId;
+      showInfoBox(draggedId);
+      feedback.textContent = "rrr";
+      feedback.style.color = "rr";
+      draggables.forEach(el => {
+        el.setAttribute("draggable", "false");
+        el.style.opacity = "0.5";
+      });
+    } else if (!isCorrect) {
+      feedback.textContent = "";
+      feedback.style.color = "";
+      if (matchedZones[zone.id]) {
+        delete matchedZones[zone.id];
+      }
+      if (pendingCorrectId === draggedId) {
+        pendingCorrectId = null;
+      }
+
+      const wrongBox = document.getElementById("wrongBox");
+      wrongBox.style.display = "flex";
+      wrongBox.style.zIndex = "1000";
+      const wrongElement = document.getElementById(draggedId);
+
+      wrongBox.onclick = () => {
+        wrongBox.style.display = "none";
+        const startZone = document.querySelector(".præventionsformer");
+        const index = parseInt(wrongElement.dataset.index);
+        const siblings = Array.from(startZone.children);
+        const insertBeforeEl = siblings.find(el => parseInt(el.dataset.index) > index);
+        if (insertBeforeEl) {
+          startZone.insertBefore(wrongElement, insertBeforeEl);
+        } else {
+          startZone.appendChild(wrongElement);
+        }
+        wrongElement.style.position = "static";
+        delete wrongElement.dataset.originalParentId;
+        wrongElement.setAttribute("draggable", "true");
+        wrongElement.style.opacity = "1";
+        draggables.forEach(el => {
+          if (el !== wrongElement) {
+            el.setAttribute("draggable", "false");
+            el.style.opacity = "0.5";
+          }
+        });
+      };
+    }
+  });
+});
 
 function closeInfoBox() {
   document.getElementById("infoBox").style.display = "none";
   document.getElementById("boks-info").style.display = "none";
-
   if (pendingCorrectId) {
-    // Elementet bliver nu ikke fjernet her.
+    const el = document.getElementById(pendingCorrectId);
+    if (el && el.parentNode) {
+      el.parentNode.removeChild(el);
+    }
+    draggables.forEach(el => {
+      el.setAttribute("draggable", "true");
+      el.style.opacity = "1";
+    });
     addPoint();
     pendingCorrectId = null;
   }
 }
-
-console.log("Droppet:", draggedId, "i zone:", zone.id);
-console.log("Er korrekt?:", isCorrect);
-
-
-
-
- //dont touch ts emma

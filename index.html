@@ -50,15 +50,16 @@
 
     <!--Præventionsformer-->
     <section class="præventionsformer"> 
-      <img src="images/Kondom.png" class="draggable" id="Kondom" draggable="true">
-      <img src="images/Homon-spiral.png" class="draggable" id="Homon-spiral" draggable="true">
-      <img src="images/P-sprøjte.png" class="draggable" id="P-sprøjte" draggable="true">
-      <img src="images/P-piller.png" class="draggable" id="P-piller" draggable="true">
-      <img src="images/Pessar.png" class="draggable" id="Pessar" draggable="true">
-      <img src="images/Kobber-spiral.png" class="draggable" id="Kobber-spiral" draggable="true">
-      <img src="images/Mini-piller.png" class="draggable" id="Mini-piller" draggable="true">
-      <img src="images/P-plaster.png" class="draggable" id="P-plaster" draggable="true">
-      <img src="images/P-stav.png" class="draggable" id="P-stav" draggable="true">
+      <img src="images/Kondom.png" class="draggable" id="Kondom" draggable="true" data-index="0">
+      <img src="images/Homon-spiral.png" class="draggable" id="Homon-spiral" draggable="true" data-index="1">
+      <img src="images/P-sprøjte.png" class="draggable" id="P-sprøjte" draggable="true" data-index="2">
+      <img src="images/P-piller.png" class="draggable" id="P-piller" draggable="true" data-index="3">
+      <img src="images/Pessar.png" class="draggable" id="Pessar" draggable="true" data-index="4">
+      <img src="images/Kobber-spiral.png" class="draggable" id="Kobber-spiral" draggable="true" data-index="5">
+      <img src="images/Mini-piller.png" class="draggable" id="Mini-piller" draggable="true" data-index="6"> 
+      <img src="images/P-plaster.png" class="draggable" id="P-plaster" draggable="true" data-index="7">
+      <img src="images/P-stav.png" class="draggable" id="P-stav" draggable="true" data-index="8">
+      
     </section>
 
     <!--Tekst i midten-->
@@ -73,23 +74,29 @@
   <button onclick="closeInfoBox() " class="infobox-button">Næste</button> <!-- Knap til at lukke infoboksen -->
 </div>
 
-<!-- Ny pop-up boks til fakta (skjult som udgangspunkt) -->
+
 <section id="boks-info" class="boks-info" style="display: none;">
   <div class="overskrift">
-    <img src="images/spiral.png" alt="ikon spiral" class="overskrift-img">
-    <h4>FAKTA</h4>
+    <img id="info-img" class="overskrift-img" src="" alt="">
+    <h4 id="info-overskrift">FAKTA</h4>
   </div>
 
-  <p>"Jeg har valgt spiral, fordi jeg gerne vil have langtidsholdbar beskyttelse."</p>
-
-  <p>Spiralen er en effektiv præventionsmetode, der placeres i livmoderen. 
-  Der findes både kobberspiral og hormonspiral. De virker i flere år og kræver ikke daglig opmærksomhed. 
-  Spiraler er populære blandt dem, der ønsker en mere permanent løsning uden hormoner (kobberspiral) eller med lav dosis (hormonspiral).</p>
+  <p id="info-citat"></p> <br>
+  <p id="info-tekst"></p>
 
   <img src="images/lyd ikon.webp" alt="Lyd ikon" class="lydikon">
 </section>
 
 
+
+<!-- Forkert prøv igen pop up besked -->
+<section id="wrongBox" class="boks3" style="display: none;">
+  <h4>FORKERT...</h4>
+  <p>Klik her for at prøve igen</p>
+  <div class="prov">
+    <img src="images/prøvigen.png" alt="prøv igen">
+  </div>
+</section>
 
     <script src="JavaScript.js/js.js"></script> <!-- Link til JavaScript fil -->
     

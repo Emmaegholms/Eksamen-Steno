@@ -57,64 +57,44 @@ dropzones.forEach(zone => {
 
   zone.addEventListener("drop", (e) => {
     e.preventDefault();
+
     const draggedId = e.dataTransfer.getData("text/plain");
     const draggedEl = document.getElementById(draggedId);
 
-    dropzones.forEach(z => {
-      if (z.contains(draggedEl)) {
-        z.removeChild(draggedEl);
-      }
-    });
-
-    dropzones.forEach(z => {
-      if (z.firstChild) {
-        z.removeChild(z.firstChild);
-      }
-    });
-
+    // Fjern eksisterende i zonen (IKKE i alle zoner)
     if (zone.firstChild) {
-      const existing = zone.firstChild;
-      const correct = correctMatches[zone.id];
-
-      const isExistingCorrect = (
-        (Array.isArray(correct) && correct.includes(existing.id)) || correct === existing.id
-      );
-
-      if (!isExistingCorrect) {
-        document.querySelector(".præventionsformer").appendChild(existing);
-        existing.style.position = "static";
-      } else {
-        zone.removeChild(existing);
-      }
+      zone.removeChild(zone.firstChild);
     }
 
+    // Tilføj det nye element
     zone.appendChild(draggedEl);
     draggedEl.style.position = "static";
 
+    // Tjek om placering er korrekt
     const correct = correctMatches[zone.id];
-    const isCorrect = (Array.isArray(correct) && correct.includes(draggedId)) || correct === draggedId;
+    const isCorrect = Array.isArray(correct)
+      ? correct.includes(draggedId)
+      : correct === draggedId;
 
-    if (isCorrect) {
+    if (isCorrect && !matchedZones[zone.id]) {
+      matchedZones[zone.id] = true;
+      pendingCorrectId = draggedId;
+      showInfoBox(draggedId);
       feedback.textContent = "";
-      feedback.style.color = "green";
-
-      if (!matchedZones[zone.id]) {
-        pendingCorrectId = draggedId;
-        matchedZones[zone.id] = true;
-        showInfoBox(draggedId);
-      }
-    } else {
-      feedback.textContent = "";
+    } else if (!isCorrect) {
+      feedback.textContent = "Forkert placering";
       feedback.style.color = "red";
-      matchedZones[zone.id] = false;
     }
 
+    // Genaktiver alt igen
     draggables.forEach(el => {
       el.setAttribute("draggable", "true");
       el.style.opacity = "1";
     });
   });
 });
+
+
 
 const preventionInfo = {
   "P-piller": { name: "P-piller", img: "images/P-piller.png" },
@@ -222,19 +202,21 @@ function showInfoBox(id) {
   }
 }
 
+
 function visFaktaBoksInfo(data) {
-  const boks = document.getElementById('boks-info');
+  const boks = document.getElementById('boks-info').style.display = 'flex';
   document.getElementById('info-img').src = data.billede;
   document.getElementById('info-img').alt = data.alt;
   document.getElementById('info-overskrift').textContent = data.overskrift;
   document.getElementById('info-citat').textContent = data.citat;
   document.getElementById('info-tekst').textContent = data.fakta;
-  boks.style.display = 'flex';
   boks.style.visibility = 'visible';
   boks.style.opacity = '1';
   boks.style.zIndex = '1000';
   
 }
+
+
 
 function closeInfoBox() {
   document.getElementById("infoBox").style.display = "none";
@@ -251,5 +233,14 @@ function closeInfoBox() {
   }
 }
 
+console.log("Droppet:", draggedId, "i zone:", zone.id);
+console.log("Er korrekt?:", isCorrect);
 
-document.getElementById('boks-info').style.display = 'flex';
+
+
+
+ //dont touch ts emma
+
+
+// forkert box
+

@@ -136,7 +136,6 @@ h1 {
 
 .infobox-title {
   color: darkblue;
-
 }
 
 .infobox-image {
@@ -160,7 +159,6 @@ h1 {
 .infobox-button:hover {
   background-color: #7e7ee0;
 }
-
 
 
 .boks-info {
@@ -199,8 +197,6 @@ h1 {
   height: auto;
   margin-left: -45px;
   cursor: default;
-  
-
 }
 
 .lydikon {
@@ -236,9 +232,49 @@ h1 {
 .prov img{
   max-width: 190px;
   max-height: 190px;
+  cursor: pointer;
 }
 
 h4{
   font-size: 28px;
 }
+
+
+/* pop up besked når man er færdig */
+.popup-succes {
+  display: none; /* skjul som standard */
+  width: 400px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 192, 203, 0.8);
+  border: 2.5px solid rgba(2, 34, 204, 0.33);
+  color: #0222CC;
+  border-radius: 12px;
+  padding: 20px;
+  display: none;
+  z-index: 1000;
+  text-align: center;
+}
+
+.forsaet{
+  width: 100px;
+  height: 40px;
+  background-color: rgba(255, 192, 203, 0.8);
+  border: 2.5px solid rgba(2, 34, 204, 0.33);
+  color: #0222CC;
+  font-size: 15px;
+  border-radius: 12px;
+}
+
+.popup-succes.vis {
+  display: block; /* vis når den har klassen "vis" */
+}
+
+/* Hvis du vil bruge skjult som klasse til at skjule */
+.popup-succes.skjult {
+  display: none !important; /* tvangsskjul, også hvis andre styles prøver at vise */
+}
+
 

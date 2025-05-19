@@ -13,6 +13,11 @@ function addPoint() {
     points++;
     updatePoints();
   }
+
+  if (points === maxPoints) {
+    const popup = document.querySelector('.popup-succes');
+    if (popup) popup.classList.add('vis');  // vis popup
+  }
 }
 
 function updatePoints() {
@@ -62,63 +67,63 @@ const mapping = {
 
 const faktaData = {
   p_piller: {
-    billede: 'images/P-piller.png',
+    billede: 'images/Pille.png',
     alt: 'ikon p-pille',
     overskrift: 'RIGTIGT',
     citat: '"Det er nemt at tage en pille hver dag, og jeg føler mig i kontrol."',
     fakta: 'P-piller er en af de mest udbredte former for prævention og indeholder en kombination af østrogen og gestagen. De tages dagligt og virker ved at hæmme ægløsningen. P-pillen blev introduceret i USA i 1960 og kom til Danmark i 1966. Siden da har den spillet en stor rolle i kvinders mulighed for at styre deres fertilitet.'
   },
   mini_piller: {
-    billede: 'images/Mini-piller.png',
+    billede: 'images/Pille.png',
     alt: 'ikon mini-pille',
     overskrift: 'RIGTIGT',
     citat: '"Jeg bruger mini-piller, fordi de ikke indeholder så meget hormon, og det passer godt til min krop."',
     fakta: 'Mini-piller indeholder kun gestagen og ikke østrogen som almindelige p-piller. De tages dagligt og gør livmoderhalsslimet ugennemtrængeligt for sædceller samt hæmmer ofte ægløsningen. De egner sig særligt til kvinder, der ikke tåler østrogen, f.eks. under amning. Mini-piller blev introduceret i Danmark i 1970’erne.'
   },
   p_sproejte: {
-    billede: 'images/P-sprøjte.png',
+    billede: 'images/Sprøjte.png',
     alt: 'ikon p-sprøjte',
     overskrift: 'RIGTIGT!',
     citat: '"Jeg får bare en sprøjte hver tredje måned, og så behøver jeg ikke tænke mere over det."',
     fakta: 'P-sprøjten er en hormonel præventionsmetode, der indeholder gestagen. Den gives som en indsprøjtning hver 8.-12. uge, ofte i baldemusklen. Den virker ved at forhindre ægløsning og gøre slimhinden i livmoderen mindre modtagelig. P-sprøjten blev populær i 1990’erne i Danmark, men bruges i dag mindre hyppigt på grund af bivirkninger som vægtøgning og uregelmæssige blødninger.'
   },
   p_plaster: {
-    billede: 'images/P-plaster.png',
+    billede: 'images/Plaster.png',
     alt: 'ikon p-plaster',
     overskrift: 'RIGTIGT',
     citat: '"P-plasteret passer godt til min hverdag – jeg sætter det bare på én gang om ugen."',
     fakta: 'P-plaster er et lille hudplaster, der frigiver østrogen og gestagen gennem huden. Det skiftes en gang om ugen i tre uger, med en pause i den fjerde uge. Det virker på samme måde som p-piller, men uden behov for daglig indtagelse. P-plasteret blev godkendt i EU i begyndelsen af 2000’erne og kom kort efter til Danmark.'
   },
   p_stav: {
-    billede: 'images/P-stav.png',
+    billede: 'images/Stav2.png',
     alt: 'ikon p-stav',
     overskrift: 'RIGTIGT',
     citat: '“P-staven passer til mig, fordi jeg ikke skal huske noget hver dag.”',
     fakta: 'P-staven er en lille plaststav, som indeholder gestagen og placeres under huden på overarmen. Den frigiver hormoner langsomt og virker i op til 3 år. P-staven forhindrer ægløsning og ændrer livmoderhalsslimet. Den blev introduceret i Danmark i slutningen af 1990’erne og er kendt for sin høje sikkerhed og lave vedligeholdelse.'
   },
   spiral: {
-    billede: 'images/Homon-spiral.png',
+    billede: 'images/spiral.png',
     alt: 'ikon spiral',
     overskrift: 'RIGTIGT',
     citat: '"Jeg har hormonspiral, fordi den virker i flere år og giver færre menstruationer."',
     fakta: 'Hormonspiralen er en T-formet plastikindsats, der placeres i livmoderen og langsomt frigiver gestagen. Den virker i 3–8 år afhængigt af typen og gør slimhinden uegnet til graviditet samt ændrer livmoderhalsslimet. Hormonspiralen kom til Danmark i 1990’erne og er blevet mere populær i de seneste år på grund af dens effektivitet og langvarige virkning.'
   },
   kobber_spiral: {
-    billede: 'images/Kobber-spiral.png',
+    billede: 'images/spiral.png',
     alt: 'ikon kobberspiral',
     overskrift: 'RIGTIGT',
     citat: '"Kobberspiralen er et godt valg for mig, fordi den ikke indeholder hormoner."',
     fakta: 'Kobberspiralen er en lille T-formet plastgenstand omviklet med kobbertråd, som placeres i livmoderen. Kobberet virker sæddræbende og forhindrer befrugtning. Den indeholder ingen hormoner og virker i op til 5–10 år. Kobberspiralen blev introduceret i Danmark i 1970’erne og bruges stadig som en effektiv, hormonfri præventionsform.'
   },
   pessar: {
-    billede: 'images/Pessar.png',
+    billede: 'images/Kondom2.png',
     alt: 'ikon pessar',
     overskrift: 'RIGTIGT',
     citat: '"Pessar er smart, fordi jeg selv kan sætte den op – og så beskytter den også mod sygdomme."',
     fakta: 'Pessaret er en silikone- eller gummiskål, der sættes op i skeden før samleje og dækker livmoderhalsen. Det bruges sammen med sæddræbende creme. Pessaret er en ikke-hormonel metode og kan genbruges. Det var især udbredt i første halvdel af 1900-tallet i Danmark, men bruges i dag mere sjældent.'
   },
   kondom: {
-    billede: 'images/Kondom.png',
+    billede: 'images/Kondom2.png',
     alt: 'ikon kondom',
     overskrift: 'RIGTIGT',
     citat: '“Kondom er nemt at bruge, og så beskytter den mod sygdomme.”',
@@ -287,3 +292,46 @@ function closeInfoBox() {
     pendingCorrectId = null;
   }
 }
+
+function lukPopup() {
+  const popup = document.querySelector('.popup-succes');
+  if (popup) {
+    popup.classList.remove('vis');  // Fjern vis klassen
+    popup.classList.add('skjult');  // Tilføj skjult klassen for sikkerhed
+  }
+
+  // Nulstil points og opdater bar
+  points = 0;
+  updatePoints();
+
+  // Ryd matchedZones og pendingCorrectId først
+  for (const key in matchedZones) {
+    delete matchedZones[key];
+  }
+  pendingCorrectId = null;
+
+  // Flyt draggables tilbage til start og nulstil styles og attributter
+  const startZone = document.querySelector(".præventionsformer");
+  if (!startZone) {
+    console.warn("Start zone '.præventionsformer' ikke fundet");
+    return;
+  }
+
+  const draggables = document.querySelectorAll(".draggable");
+  draggables.forEach(el => {
+    startZone.appendChild(el);
+    el.style.position = "static";
+    el.style.opacity = "1";
+    el.setAttribute("draggable", "true");
+    delete el.dataset.originalParentId;
+  });
+
+  // Skjul info-boks hvis åben
+  const infoBox = document.getElementById("infoBox");
+  if (infoBox) infoBox.style.display = "none";
+
+  // Vis overskrift igen hvis skjult
+  const overskriftEl = document.getElementById("overskrift");
+  if (overskriftEl) overskriftEl.style.display = "block";
+}
+

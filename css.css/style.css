@@ -269,12 +269,12 @@ h4{
 }
 
 .popup-succes.vis {
-  display: block; /* vis når den har klassen "vis" */
+  display: block; /* eller flex, afhængig af design */
 }
 
-/* Hvis du vil bruge skjult som klasse til at skjule */
 .popup-succes.skjult {
-  display: none !important; /* tvangsskjul, også hvis andre styles prøver at vise */
+  display: none;
 }
+
 
 

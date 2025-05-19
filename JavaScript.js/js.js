@@ -295,43 +295,37 @@ function closeInfoBox() {
 
 function lukPopup() {
   const popup = document.querySelector('.popup-succes');
-  if (popup) {
-    popup.classList.remove('vis');  // Fjern vis klassen
-    popup.classList.add('skjult');  // Tilføj skjult klassen for sikkerhed
-  }
+  if (popup) popup.classList.add('skjult');
 
-  // Nulstil points og opdater bar
+  // Nulstil points og opdater baren
   points = 0;
   updatePoints();
 
-  // Ryd matchedZones og pendingCorrectId først
-  for (const key in matchedZones) {
-    delete matchedZones[key];
-  }
-  pendingCorrectId = null;
-
-  // Flyt draggables tilbage til start og nulstil styles og attributter
+  // Her placerer du startZone variablen
   const startZone = document.querySelector(".præventionsformer");
-  if (!startZone) {
-    console.warn("Start zone '.præventionsformer' ikke fundet");
-    return;
-  }
 
+  // Flyt alle draggables tilbage til startZone
   const draggables = document.querySelectorAll(".draggable");
   draggables.forEach(el => {
     startZone.appendChild(el);
     el.style.position = "static";
-    el.style.opacity = "1";
     el.setAttribute("draggable", "true");
+    el.style.opacity = "1";
     delete el.dataset.originalParentId;
   });
 
-  // Skjul info-boks hvis åben
+  // Skjul info-boks hvis den er åben
   const infoBox = document.getElementById("infoBox");
   if (infoBox) infoBox.style.display = "none";
 
-  // Vis overskrift igen hvis skjult
+  // Vis evt. overskriften igen hvis du skjulte den før
   const overskriftEl = document.getElementById("overskrift");
   if (overskriftEl) overskriftEl.style.display = "block";
+
+  // Ryd matchedZones og pendingCorrectId
+  for (const key in matchedZones) {
+    delete matchedZones[key];
+  }
+  pendingCorrectId = null;
 }
 

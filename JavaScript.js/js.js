@@ -293,39 +293,43 @@ function closeInfoBox() {
   }
 }
 
+
 function lukPopup() {
-  const popup = document.querySelector('.popup-succes');
-  if (popup) popup.classList.add('skjult');
+  // Skjul popup
+  document.querySelector(".popup-succes").style.display = "none";
 
-  // Nulstil points og opdater baren
-  points = 0;
-  updatePoints();
+  // Nulstil .præventionsformer
+  const container = document.querySelector(".præventionsformer");
+  container.innerHTML = `
+    <img src="images/Kondom.png" class="draggable" id="Kondom" draggable="true" data-index="0">
+    <img src="images/Homon-spiral.png" class="draggable" id="Homon-spiral" draggable="true" data-index="1">
+    <img src="images/P-sprøjte.png" class="draggable" id="P-sprøjte" draggable="true" data-index="2">
+    <img src="images/P-piller.png" class="draggable" id="P-piller" draggable="true" data-index="3">
+    <img src="images/Pessar.png" class="draggable" id="Pessar" draggable="true" data-index="4">
+    <img src="images/Kobber-spiral.png" class="draggable" id="Kobber-spiral" draggable="true" data-index="5">
+    <img src="images/Mini-piller.png" class="draggable" id="Mini-piller" draggable="true" data-index="6"> 
+    <img src="images/P-plaster.png" class="draggable" id="P-plaster" draggable="true" data-index="7">
+    <img src="images/P-stav.png" class="draggable" id="P-stav" draggable="true" data-index="8">
+  `;
+  container.style.display = "flex";
 
-  // Her placerer du startZone variablen
-  const startZone = document.querySelector(".præventionsformer");
+    // Tilføj dragstart event listeners igen
+    document.querySelectorAll(".draggable").forEach(el => {
+      el.addEventListener("dragstart", function (e) {
+        e.dataTransfer.setData("text/plain", e.target.id);
+      });
+    });
 
-  // Flyt alle draggables tilbage til startZone
-  const draggables = document.querySelectorAll(".draggable");
-  draggables.forEach(el => {
-    startZone.appendChild(el);
-    el.style.position = "static";
-    el.setAttribute("draggable", "true");
-    el.style.opacity = "1";
-    delete el.dataset.originalParentId;
+  // Ryd dropzones
+  document.querySelectorAll(".dropzone").forEach(zone => {
+    zone.innerHTML = "";
   });
 
-  // Skjul info-boks hvis den er åben
-  const infoBox = document.getElementById("infoBox");
-  if (infoBox) infoBox.style.display = "none";
+  // Nulstil fremdrift
+  document.getElementById("pointsFill").style.width = "0%";
+  document.getElementById("pointsText").textContent = "0/9";
 
-  // Vis evt. overskriften igen hvis du skjulte den før
-  const overskriftEl = document.getElementById("overskrift");
-  if (overskriftEl) overskriftEl.style.display = "block";
-
-  // Ryd matchedZones og pendingCorrectId
-  for (const key in matchedZones) {
-    delete matchedZones[key];
+  if (typeof resetScore === "function") {
+    resetScore();
   }
-  pendingCorrectId = null;
 }
-

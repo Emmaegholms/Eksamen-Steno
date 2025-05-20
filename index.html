@@ -6,6 +6,13 @@
     <title>Steno Museet</title>
     <link rel="stylesheet" href="css.css/style.css">
     <link rel="icon" type="image/png" href="images/logo.png">
+
+    <meta name="title" content="Steno museum">
+    <meta name="description" content="En interaktiv skærm hvir man skal placere præventionsformer korrekt">
+    <meta name="keywords" content="præventionsformer, krop, citat, fakta, køn, næste, godt gået, lærerig, pink, blå">
+    <meta name="robots" content="index, follow">
+   
+
 </head>
 <body>
   <main>
@@ -49,15 +56,15 @@
 
     <!--Præventionsformer-->
     <section class="præventionsformer"> 
-      <img src="images/Kondom.png" class="draggable" id="Kondom" draggable="true" data-index="0">
-      <img src="images/Homon-spiral.png" class="draggable" id="Homon-spiral" draggable="true" data-index="1">
-      <img src="images/P-sprøjte.png" class="draggable" id="P-sprøjte" draggable="true" data-index="2">
-      <img src="images/P-piller.png" class="draggable" id="P-piller" draggable="true" data-index="3">
-      <img src="images/Pessar.png" class="draggable" id="Pessar" draggable="true" data-index="4">
-      <img src="images/Kobber-spiral.png" class="draggable" id="Kobber-spiral" draggable="true" data-index="5">
-      <img src="images/Mini-piller.png" class="draggable" id="Mini-piller" draggable="true" data-index="6"> 
-      <img src="images/P-plaster.png" class="draggable" id="P-plaster" draggable="true" data-index="7">
-      <img src="images/P-stav.png" class="draggable" id="P-stav" draggable="true" data-index="8">
+      <img src="images/Kondom.png" class="draggable" id="Kondom" draggable="true" data-index="0" alt="Kondom">
+      <img src="images/Homon-spiral.png" class="draggable" id="Homon-spiral" draggable="true" data-index="1" alt="Homon-spiral">
+      <img src="images/P-sprøjte.png" class="draggable" id="P-sprøjte" draggable="true" data-index="2" alt="P-sprøjte">
+      <img src="images/P-piller.png" class="draggable" id="P-piller" draggable="true" data-index="3" alt="P-piller">
+      <img src="images/Pessar.png" class="draggable" id="Pessar" draggable="true" data-index="4" alt="Pessar">
+      <img src="images/Kobber-spiral.png" class="draggable" id="Kobber-spiral" draggable="true" data-index="5" alt="Kobber-spiral">
+      <img src="images/Mini-piller.png" class="draggable" id="Mini-piller" draggable="true" data-index="6" alt="Mini-piller"> 
+      <img src="images/P-plaster.png" class="draggable" id="P-plaster" draggable="true" data-index="7" alt="P-plaster">
+      <img src="images/P-stav.png" class="draggable" id="P-stav" draggable="true" data-index="8" alt="P-stav">
       
     </section>
 
@@ -68,7 +75,7 @@
 
     <!--Præventionsmiddelsboks til når det korrekt og de kan gå videre-->
   <div id="infoBox" class="infobox">
-    <h2 class="infobox-title" id="infoTitle"></h2>
+  <h2 class="infobox-title" id="infoTitle"></h2>
   <p id="infoText" class="infobox-text"></p>
   <img id="infoImage" alt="Billede af prævention" class="infobox-image">
   <button onclick="closeInfoBox() " class="infobox-button">Næste</button> <!-- Knap til at lukke infoboksen -->
@@ -77,14 +84,14 @@
 
 <section id="boks-info" class="boks-info" style="display: none;">
   <div class="overskrift">
-    <img id="info-img" class="overskrift-img" src="" alt="">
+    <img id="info-img" class="overskrift-img" src="" alt="info">
     <h4 id="info-overskrift">FAKTA</h4>
   </div>
 
   <p id="info-citat"></p> <br>
   <p id="info-tekst"></p>
 
-  <img src="images/lyd ikon.webp" alt="Lyd ikon" class="lydikon">
+  <img src="images/lydikon.webp" class="lydikon" alt="Lyd ikon">
 </section>
 
 
@@ -115,8 +122,8 @@
 
 
 
-
+  </main>
   </body>
-</main>
+
 
 </html>

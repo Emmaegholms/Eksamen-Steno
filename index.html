@@ -32,6 +32,8 @@
     <!--Krop + cirkler - Deres style ligger her for at de ikke fylder for meget, i style.css-->
 <section>
     <img src="images/krop1.png" alt="krop" class="krop">
+    <h2 class="visually-hidden">Præventionsformer</h2>
+
 
 <span class="dropzone" id="zone1" style="top: 39%; left: 41.5%;"></span>
 <span class="dropzone" id="zone2" style="top: 20%; left: 50%;"></span>
@@ -56,6 +58,7 @@
 
     <!--Præventionsformer-->
     <section class="præventionsformer"> 
+      <h2 class="visually-hidden">Præventionsformer</h2>
       <img src="images/Kondom.png" class="draggable" id="Kondom" draggable="true" data-index="0" alt="Kondom">
       <img src="images/Homon-spiral.png" class="draggable" id="Homon-spiral" draggable="true" data-index="1" alt="Homon-spiral">
       <img src="images/P-sprøjte.png" class="draggable" id="P-sprøjte" draggable="true" data-index="2" alt="P-sprøjte">
@@ -75,16 +78,18 @@
 
     <!--Præventionsmiddelsboks til når det korrekt og de kan gå videre-->
   <div id="infoBox" class="infobox">
-  <h2 class="infobox-title" id="infoTitle"></h2>
+    <h2 class="infobox-title" id="infoTitle" aria-hidden="true">Infoboks</h2>
   <p id="infoText" class="infobox-text"></p>
-  <img id="infoImage" alt="Billede af prævention" class="infobox-image">
+  <img id="infoImage" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="Billede af prævention" class="infobox-image"> <!--Undgår fejl i validering-->
   <button onclick="closeInfoBox() " class="infobox-button">Næste</button> <!-- Knap til at lukke infoboksen -->
 </div>
 
 
 <section id="boks-info" class="boks-info" style="display: none;">
   <div class="overskrift">
-    <img id="info-img" class="overskrift-img" src="" alt="info">
+    <img
+    id="info-img" class="overskrift-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAn8B9+6Tz60AAAAASUVORK5CYII=" alt="info">
+  
     <h4 id="info-overskrift">FAKTA</h4>
   </div>
 

@@ -39,7 +39,7 @@ const correctMatches = {
   zone4: "P-stav",
   zone5: ["Homon-spiral", "Kobber-spiral"],
   zone6: ["Pessar", "Kondom"]
-};
+}; 
 
 const preventionInfo = {
   "P-piller": { name: "P-piller", img: "images/P-piller.png" },

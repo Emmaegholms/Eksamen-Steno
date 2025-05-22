@@ -1,18 +1,22 @@
 
-let points = 0;
-let pendingCorrectId = null;
-const maxPoints = 9;
-const matchedZones = {};
+let points = 0; // Antal korrekte placeringer
+let pendingCorrectId = null; // Bruges til midlertidigt at holde styr på korrekt element inden point gives
+const maxPoints = 9; // Maksimalt antal korrekte
+const matchedZones = {}; // Gemmer hvilke zoner der allerede er matchet korrekt
 
+// Skjul infoboksen ved start (Emma)
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("infoBox").style.display = "none";
 });
 
+
+// Opdater fremdriftsbar og tal (Andreas)
 function addPoint() {
   if (points < maxPoints) {
     points++;
-    updatePoints();
+    updatePoints(); 
   }
+
 
   if (points === maxPoints) {
     const popup = document.querySelector('.popup-succes');
@@ -28,16 +32,19 @@ function updatePoints() {
   text.textContent = `${points}/${maxPoints}`;
 }
 
+
+// Find alle draggable elementer og dropzones (Emma)
 const draggables = document.querySelectorAll(".draggable");
 const dropzones = document.querySelectorAll(".dropzone");
 
 
+// Angiver hvilke elementer der hører til hvilke dropzones (Kristoffer)
 const correctMatches = {
   zone1: "P-sprøjte",
   zone2: ["P-piller", "Mini-piller"],
   zone3: "P-plaster",
   zone4: "P-stav",
-  zone5: ["Homon-spiral", "Kobber-spiral"],
+  zone5: ["Hormon-spiral", "Kobber-spiral"],
   zone6: ["Pessar", "Kondom"]
 }; 
 
@@ -47,7 +54,7 @@ const preventionInfo = {
   "P-sprøjte": { name: "P-sprøjte", img: "images/P-sprøjte.png" },
   "P-plaster": { name: "P-plaster", img: "images/P-plaster.png" },
   "P-stav": { name: "P-stav", img: "images/P-stav.png" },
-  "Homon-spiral": { name: "Homon-spiral", img: "images/Homon-spiral.png" },
+  "Hormon-spiral": { name: "Hormon-spiral", img: "images/Homon-spiral.png" },
   "Kobber-spiral": { name: "Kobber-spiral", img: "images/Kobber-spiral.png" },
   "Pessar": { name: "Pessar", img: "images/Pessar.png" },
   "Kondom": { name: "Kondom", img: "images/Kondom.png" }
@@ -59,12 +66,13 @@ const mapping = {
   "P-sprøjte": "p_sproejte",
   "P-plaster": "p_plaster",
   "P-stav": "p_stav",
-  "Homon-spiral": "spiral",
+  "Hormon-spiral": "spiral",
   "Kobber-spiral": "kobber_spiral",
   "Pessar": "pessar",
   "Kondom": "kondom"
 };
 
+// Fuld faktatekst, citater og billeder (Line)
 const faktaData = {
   p_piller: {
     billede: 'images/Pille.png',
@@ -131,6 +139,7 @@ const faktaData = {
   }
 };
 
+// Viser infoboksen med korrekt billede og navn (Emma)
 function showInfoBox(id) {
   const info = preventionInfo[id];
   if (!info) return;
@@ -145,6 +154,7 @@ function showInfoBox(id) {
   }
 }
 
+// Fylder faktaboksen med data (Andreas)
 function visFaktaBoksInfo(data) {
   const boks = document.getElementById('boks-info');
   boks.style.display = 'flex';
@@ -159,7 +169,7 @@ function visFaktaBoksInfo(data) {
   document.getElementById('info-tekst').textContent = data.fakta;
 }
 
-
+// Aktiver dragstart og gør alle andre inaktive (Kristoffer)
 draggables.forEach(item => {
   item.addEventListener("dragstart", (e) => {
     e.dataTransfer.setData("text/plain", e.target.id);
@@ -172,6 +182,7 @@ draggables.forEach(item => {
   });
 });
 
+// Aktiver dropzones ved dragover (Line)
 dropzones.forEach(zone => {
   zone.addEventListener("dragover", (e) => e.preventDefault());
 
@@ -192,7 +203,7 @@ dropzones.forEach(zone => {
         }
       }
     }
-
+    // Håndter hvis der allerede ligger noget i dropzonen fx når der skal ligge flere i samme dropzone (Andreas)
     if (zone.firstChild) {
       const existingElement = zone.firstChild;
       if (existingElement.dataset.originalParentId) {
@@ -213,6 +224,7 @@ dropzones.forEach(zone => {
       }
     }
 
+    // Tilføj det trukne element til dropzonen (Emma)
     zone.appendChild(draggedEl);
     draggedEl.style.position = "static";
     draggedEl.dataset.originalParentId = zone.id;
@@ -222,12 +234,13 @@ dropzones.forEach(zone => {
       ? correct.includes(draggedId)
       : correct === draggedId;
 
+      // Tjek om det er korrekt placeret (Line)
       if (isCorrect && !matchedZones[zone.id]) {
         matchedZones[zone.id] = true;
         pendingCorrectId = draggedId;
         showInfoBox(draggedId);
       
-        // Skjul overskriften første gang noget placeres korrekt
+        // Skjul overskriften første gang noget placeres korrekt (Kristoffer)
         const overskriftEl = document.getElementById("overskrift");
         if (overskriftEl) overskriftEl.style.display = "none";
       
@@ -245,11 +258,13 @@ dropzones.forEach(zone => {
         pendingCorrectId = null;
       }
 
+      // Vis forkert boks (Andreas)
       const wrongBox = document.getElementById("wrongBox");
       wrongBox.style.display = "flex";
       wrongBox.style.zIndex = "1000";
       const wrongElement = document.getElementById(draggedId);
 
+      // Når boksen klikkes,  bliver man sendt tilbage til start og kan vælge et nyt element (Emma)
       wrongBox.onclick = () => {
         wrongBox.style.display = "none";
         const startZone = document.querySelector(".præventionsformer");
@@ -261,6 +276,8 @@ dropzones.forEach(zone => {
         } else {
           startZone.appendChild(wrongElement);
         }
+
+        // Gør aktiv igen (Line)
         wrongElement.style.position = "static";
         delete wrongElement.dataset.originalParentId;
         wrongElement.setAttribute("draggable", "true");
@@ -276,6 +293,8 @@ dropzones.forEach(zone => {
   });
 });
 
+
+// Luk infoboks og giv point (Andreas)
 function closeInfoBox() {
   document.getElementById("infoBox").style.display = "none";
   document.getElementById("boks-info").style.display = "none";
@@ -295,14 +314,14 @@ function closeInfoBox() {
 
 
 function lukPopup() {
-  // Skjul popup
+  // Skjul popup (Line)
   document.querySelector(".popup-succes").style.display = "none";
 
-  // Nulstil .præventionsformer
+  // Nulstil .præventionsformer (Emma)
   const container = document.querySelector(".præventionsformer");
   container.innerHTML = `
     <img src="images/Kondom.png" class="draggable" id="Kondom" draggable="true" data-index="0">
-    <img src="images/Homon-spiral.png" class="draggable" id="Homon-spiral" draggable="true" data-index="1">
+    <img src="images/Homon-spiral.png" class="draggable" id="Hormon-spiral" draggable="true" data-index="1">
     <img src="images/P-sprøjte.png" class="draggable" id="P-sprøjte" draggable="true" data-index="2">
     <img src="images/P-piller.png" class="draggable" id="P-piller" draggable="true" data-index="3">
     <img src="images/Pessar.png" class="draggable" id="Pessar" draggable="true" data-index="4">
@@ -313,19 +332,19 @@ function lukPopup() {
   `;
   container.style.display = "flex";
 
-    // Tilføj dragstart event listeners igen
+    // Tilføj dragstart event listeners igen (Kristoffer)
     document.querySelectorAll(".draggable").forEach(el => {
       el.addEventListener("dragstart", function (e) {
         e.dataTransfer.setData("text/plain", e.target.id);
       });
     });
 
-  // Ryd dropzones
+  // Ryd dropzones (Andreas)
   document.querySelectorAll(".dropzone").forEach(zone => {
     zone.innerHTML = "";
   });
 
-  // Nulstil fremdrift
+  // Nulstil fremdrift (Line)
   document.getElementById("pointsFill").style.width = "0%";
   document.getElementById("pointsText").textContent = "0/9";
 
